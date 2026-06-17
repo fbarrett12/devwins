@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { winController } from "@/controllers/winController";
 import { deleteWinAction } from "@/app/actions/winActions";
 
@@ -15,60 +16,81 @@ export default async function WinDetailPage({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-8">
-      <h1 className="mb-2 text-3xl font-bold">{win.title}</h1>
+    <main className="mx-auto max-w-3xl px-6 py-10">
+      <Link
+        href="/wins"
+        className="mb-6 inline-block text-sm font-medium text-slate-500 hover:text-slate-950"
+      >
+        ← Back to wins
+      </Link>
 
-      <p className="mb-6 text-sm text-gray-600">
-        {win.category.replace("_", " ")}
-      </p>
+      <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-6">
+          <span className="mb-3 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+            {win.category.replace("_", " ")}
+          </span>
 
-      {win.impactMetric && (
-        <section className="mb-6">
-          <h2 className="font-semibold">Impact Metric</h2>
-          <p>{win.impactMetric}</p>
-        </section>
-      )}
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950">
+            {win.title}
+          </h1>
+        </div>
 
-      {win.situation && (
-        <section className="mb-4">
-          <h2 className="font-semibold">Situation</h2>
-          <p>{win.situation}</p>
-        </section>
-      )}
+        {win.impactMetric && (
+          <section className="mb-6 rounded-xl bg-slate-50 p-4">
+            <h2 className="mb-1 text-sm font-semibold text-slate-500">
+              Impact Metric
+            </h2>
+            <p className="text-xl font-semibold text-slate-950">
+              {win.impactMetric}
+            </p>
+          </section>
+        )}
 
-      {win.task && (
-        <section className="mb-4">
-          <h2 className="font-semibold">Task</h2>
-          <p>{win.task}</p>
-        </section>
-      )}
+        <div className="space-y-5">
+          {win.situation && (
+            <Section title="Situation" body={win.situation} />
+          )}
 
-      {win.action && (
-        <section className="mb-4">
-          <h2 className="font-semibold">Action</h2>
-          <p>{win.action}</p>
-        </section>
-      )}
+          {win.task && <Section title="Task" body={win.task} />}
 
-      {win.result && (
-        <section className="mb-4">
-          <h2 className="font-semibold">Result</h2>
-          <p>{win.result}</p>
-        </section>
-      )}
+          {win.action && <Section title="Action" body={win.action} />}
 
-      {win.technologies.length > 0 && (
-        <section className="mb-6">
-          <h2 className="font-semibold">Technologies</h2>
-          <p>{win.technologies.join(", ")}</p>
-        </section>
-      )}
+          {win.result && <Section title="Result" body={win.result} />}
 
-      <form action={deleteWinAction.bind(null, win.id)}>
-        <button className="rounded bg-red-600 px-4 py-2 text-white">
-          Delete Win
-        </button>
-      </form>
+          {win.technologies.length > 0 && (
+            <section>
+              <h2 className="mb-2 text-sm font-semibold text-slate-500">
+                Technologies
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {win.technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700"
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <form action={deleteWinAction.bind(null, win.id)} className="mt-8">
+          <button className="rounded-xl border border-red-200 px-5 py-3 text-sm font-medium text-red-700 hover:bg-red-50">
+            Delete Win
+          </button>
+        </form>
+      </article>
     </main>
+  );
+}
+
+function Section({ title, body }: { title: string; body: string }) {
+  return (
+    <section>
+      <h2 className="mb-1 text-sm font-semibold text-slate-500">{title}</h2>
+      <p className="leading-7 text-slate-700">{body}</p>
+    </section>
   );
 }
