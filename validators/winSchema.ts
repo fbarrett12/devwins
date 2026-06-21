@@ -12,4 +12,4 @@ export const winSchema = z.object({
   technologies: z.array(z.string()).optional(),
 });
 
-export type WinFormInput = z.infer<typeof winSchema>;
+export type WinInput = z.infer<typeof winSchema>;

@@ -1,48 +1,64 @@
-import prisma from "@/lib/prisma";
-import { Category } from "@prisma/client";
-
-export type CreateWinInput = {
-  title: string;
-  category: Category;
-  situation?: string;
-  task?: string;
-  action?: string;
-  result?: string;
-  impactMetric?: string;
-  technologies?: string[];
-};
-
-export type UpdateWinInput = Partial<CreateWinInput>;
+import { prisma } from "@/lib/prisma";
+import type { WinInput } from "@/validators/winSchema";
 
 export const winRepository = {
-  findAll() {
+  async findAllByUserId(userId: string) {
     return prisma.win.findMany({
+      where: { userId },
       orderBy: {
         createdAt: "desc",
       },
     });
   },
 
-  findById(id: string) {
-    return prisma.win.findUnique({
-      where: { id },
+  async findByIdAndUserId(id: string, userId: string) {
+    return prisma.win.findFirst({
+      where: {
+        id,
+        userId,
+      },
     });
   },
 
-  create(data: CreateWinInput) {
+  async create(data: WinInput, userId: string) {
     return prisma.win.create({
-      data,
+      data: {
+        ...data,
+        userId,
+      },
     });
   },
 
-  update(id: string, data: UpdateWinInput) {
+  async update(id: string, data: WinInput, userId: string) {
+    const existingWin = await prisma.win.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    if (!existingWin) {
+      throw new Error("Win not found.");
+    }
+
     return prisma.win.update({
       where: { id },
       data,
     });
   },
 
-  delete(id: string) {
+  async delete(id: string, userId: string) {
+    const existingWin = await prisma.win.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    if (!existingWin) {
+      throw new Error("Win not found.");
+    }
+
     return prisma.win.delete({
       where: { id },
     });

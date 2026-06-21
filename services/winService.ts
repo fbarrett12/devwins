@@ -1,30 +1,24 @@
-import {
-  CreateWinInput,
-  UpdateWinInput,
-  winRepository,
-} from "@/repositories/winRepository";
+import { winRepository } from "@/repositories/winRepository";
+import type { WinInput } from "@/validators/winSchema";
 
 export const winService = {
-  getAllWins() {
-    return winRepository.findAll();
+  async getAllWins(userId: string) {
+    return winRepository.findAllByUserId(userId);
   },
 
-  getWinById(id: string) {
-    return winRepository.findById(id);
+  async getWinById(id: string, userId: string) {
+    return winRepository.findByIdAndUserId(id, userId);
   },
 
-  createWin(data: CreateWinInput) {
-    return winRepository.create({
-      ...data,
-      technologies: data.technologies ?? [],
-    });
+  async createWin(data: WinInput, userId: string) {
+    return winRepository.create(data, userId);
   },
 
-  updateWin(id: string, data: UpdateWinInput) {
-    return winRepository.update(id, data);
+  async updateWin(id: string, data: WinInput, userId: string) {
+    return winRepository.update(id, data, userId);
   },
 
-  deleteWin(id: string) {
-    return winRepository.delete(id);
+  async deleteWin(id: string, userId: string) {
+    return winRepository.delete(id, userId);
   },
 };

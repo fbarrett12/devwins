@@ -1,18 +1,31 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { winController } from "@/controllers/winController";
 
 export async function createWinAction(formData: FormData) {
-  await winController.create(formData);
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  const win = await winController.create(formData, session.user.id);
 
   revalidatePath("/wins");
-  redirect("/wins");
+  redirect(`/wins/${win.id}`);
 }
 
 export async function deleteWinAction(id: string) {
-  await winController.destroy(id);
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  await winController.destroy(id, session.user.id);
 
   revalidatePath("/wins");
   redirect("/wins");

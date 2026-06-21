@@ -2,15 +2,15 @@ import { winService } from "@/services/winService";
 import { winSchema } from "@/validators/winSchema";
 
 export const winController = {
-  async index() {
-    return winService.getAllWins();
+  async index(userId: string) {
+    return winService.getAllWins(userId);
   },
 
-  async show(id: string) {
-    return winService.getWinById(id);
+  async show(id: string, userId: string) {
+    return winService.getWinById(id, userId);
   },
 
-  async create(formData: FormData) {
+  async create(formData: FormData, userId: string) {
     const rawData = {
       title: formData.get("title"),
       category: formData.get("category"),
@@ -30,10 +30,10 @@ export const winController = {
 
     const validatedData = winSchema.parse(rawData);
 
-    return winService.createWin(validatedData);
+    return winService.createWin(validatedData, userId);
   },
 
-  async update(id: string, formData: FormData) {
+  async update(id: string, formData: FormData, userId: string) {
     const rawData = {
       title: formData.get("title"),
       category: formData.get("category"),
@@ -53,10 +53,10 @@ export const winController = {
 
     const validatedData = winSchema.parse(rawData);
 
-    return winService.updateWin(id, validatedData);
+    return winService.updateWin(id, validatedData, userId);
   },
 
-  async destroy(id: string) {
-    return winService.deleteWin(id);
+  async destroy(id: string, userId: string) {
+    return winService.deleteWin(id, userId);
   },
 };
