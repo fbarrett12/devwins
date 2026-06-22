@@ -1,13 +1,14 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import  prisma from "@/lib/prisma";
-import { signIn } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { signIn, signOut } from "@/lib/auth";
 
 export async function signupAction(formData: FormData) {
-  const name = String(formData.get("name") || "");
-  const email = String(formData.get("email") || "").toLowerCase();
+  const name = String(formData.get("name") || "").trim();
+  const email = String(formData.get("email") || "").toLowerCase().trim();
   const password = String(formData.get("password") || "");
 
   if (!email || !password) {
@@ -26,7 +27,7 @@ export async function signupAction(formData: FormData) {
 
   await prisma.user.create({
     data: {
-      name,
+      name: name || null,
       email,
       passwordHash,
     },
@@ -40,12 +41,26 @@ export async function signupAction(formData: FormData) {
 }
 
 export async function loginAction(formData: FormData) {
-  const email = String(formData.get("email") || "").toLowerCase();
+  const email = String(formData.get("email") || "").toLowerCase().trim();
   const password = String(formData.get("password") || "");
 
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: "/wins",
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/wins",
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      redirect("/login?error=CredentialsSignin");
+    }
+
+    throw error;
+  }
+}
+
+export async function logoutAction() {
+  await signOut({
+    redirectTo: "/",
   });
 }
