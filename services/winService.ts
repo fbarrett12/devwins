@@ -21,4 +21,12 @@ export const winService = {
   async deleteWin(id: string, userId: string) {
     return winRepository.delete(id, userId);
   },
+
+  async getDemoWins() {
+    return winRepository.findDemoWins();
+  },
+
+  async getDemoWinById(id: string) {
+    return winRepository.findDemoWinById(id);
+  },
 };

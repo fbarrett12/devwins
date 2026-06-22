@@ -24,6 +24,8 @@ model Win {
 
   userId      String?
   user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isDemo       Boolean  @default(false)
 }
 
 enum Category {

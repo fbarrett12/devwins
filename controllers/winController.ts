@@ -59,4 +59,12 @@ export const winController = {
   async destroy(id: string, userId: string) {
     return winService.deleteWin(id, userId);
   },
+
+  async demoIndex() {
+    return winService.getDemoWins();
+  },
+
+  async demoShow(id: string) {
+    return winService.getDemoWinById(id);
+  },
 };

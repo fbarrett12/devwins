@@ -20,6 +20,24 @@ export const winRepository = {
     });
   },
 
+  async findDemoWins() {
+    return prisma.win.findMany({
+      where: { isDemo: true },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  },
+
+  async findDemoWinById(id: string) {
+    return prisma.win.findFirst({
+      where: {
+        id,
+        isDemo: true,
+      },
+    });
+  },
+
   async create(data: WinInput, userId: string) {
     return prisma.win.create({
       data: {
