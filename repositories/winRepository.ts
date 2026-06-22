@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import type { WinInput } from "@/validators/winSchema";
 
 export const winRepository = {

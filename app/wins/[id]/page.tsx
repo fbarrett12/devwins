@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 import { winController } from "@/controllers/winController";
 import { deleteWinAction } from "@/app/actions/winActions";
 
@@ -8,8 +9,14 @@ type PageProps = {
 };
 
 export default async function WinDetailPage({ params }: PageProps) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
   const { id } = await params;
-  const win = await winController.show(id);
+  const win = await winController.show(id, session.user.id);
 
   if (!win) {
     notFound();
@@ -17,10 +24,7 @@ export default async function WinDetailPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link
-        href="/wins"
-        className="mb-6 inline-block text-sm font-medium text-slate-500 hover:text-slate-950"
-      >
+      <Link href="/wins" className="mb-6 inline-block text-sm font-medium text-slate-500 hover:text-slate-950">
         ← Back to wins
       </Link>
 
@@ -47,14 +51,9 @@ export default async function WinDetailPage({ params }: PageProps) {
         )}
 
         <div className="space-y-5">
-          {win.situation && (
-            <Section title="Situation" body={win.situation} />
-          )}
-
+          {win.situation && <Section title="Situation" body={win.situation} />}
           {win.task && <Section title="Task" body={win.task} />}
-
           {win.action && <Section title="Action" body={win.action} />}
-
           {win.result && <Section title="Result" body={win.result} />}
 
           {win.technologies.length > 0 && (
@@ -64,10 +63,7 @@ export default async function WinDetailPage({ params }: PageProps) {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {win.technologies.map((technology) => (
-                  <span
-                    key={technology}
-                    className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700"
-                  >
+                  <span key={technology} className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
                     {technology}
                   </span>
                 ))}

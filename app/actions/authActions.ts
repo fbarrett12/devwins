@@ -2,7 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import  prisma from "@/lib/prisma";
 import { signIn } from "@/lib/auth";
 
 export async function signupAction(formData: FormData) {
