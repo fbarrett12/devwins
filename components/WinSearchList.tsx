@@ -10,16 +10,17 @@ type WinListItem = {
   impactMetric: string | null;
   result: string | null;
 };
-
+    
 type WinSearchListProps = {
   wins: WinListItem[];
+  basePath?: string;
 };
 
 function formatCategory(category: string) {
   return category.replaceAll("_", " ");
 }
 
-export default function WinSearchList({ wins }: WinSearchListProps) {
+export default function WinSearchList({ wins, basePath = "/wins",}: WinSearchListProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
 
@@ -145,7 +146,7 @@ export default function WinSearchList({ wins }: WinSearchListProps) {
           {filteredWins.map((win) => (
             <Link
               key={win.id}
-              href={`/wins/${win.id}`}
+              href={`${basePath}/${win.id}`}
               className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="mb-3 flex items-start justify-between gap-4">
