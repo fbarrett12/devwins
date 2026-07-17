@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { loginAction } from "@/app/actions/authActions";
 import { signIn } from "@/lib/auth";
+import { ComingSoonAuthButton } from "@/components/auth/ComingSoonAuthButton";
 
 export default function LoginPage() {
   return (
@@ -68,7 +69,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <form
+        {/* <form
           action={async () => {
             "use server";
             await signIn("google", { redirectTo: "/wins" });
@@ -77,9 +78,9 @@ export default function LoginPage() {
           <button className="w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
             Continue with Google
           </button>
-        </form>
+        </form> */}
 
-        <form
+        {/* <form
           action={async () => {
             "use server";
             await signIn("linkedin", { redirectTo: "/wins" });
@@ -88,7 +89,9 @@ export default function LoginPage() {
           <button className="w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
             Continue with LinkedIn
           </button>
-        </form>
+        </form> */}
+        <ComingSoonAuthButton provider="Google" />
+        <ComingSoonAuthButton provider="LinkedIn" />
       </div>
 
       <p className="mt-6 text-center text-sm text-slate-500">
