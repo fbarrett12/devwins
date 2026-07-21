@@ -21,20 +21,24 @@ export default async function WinsPage() {
     result: win.result,
   }));
 
+  const totalWins = searchableWins.length;
+
+  const totalCategories = new Set(searchableWins.map((win) => win.category)).size;
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-slate-500">Your impact log</p>
           <h1 className="text-4xl font-bold tracking-tight text-slate-950">
-            DevWins
+            Dev<span className="text-amber-500">Wins</span>
           </h1>
         </div>
 
         <div className="flex items-center gap-4">
           <Link
             href="/wins/new"
-            className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800"
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/20"
           >
             Add Win
           </Link>
@@ -59,7 +63,11 @@ export default async function WinsPage() {
           </Link>
         </div>
       ) : (
-        <WinSearchList wins={searchableWins} />
+        <WinSearchList 
+        wins={searchableWins}
+        totalWins={totalWins}
+        totalCategories={totalCategories}
+         />
       )}
     </main>
   );

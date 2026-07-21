@@ -9,7 +9,7 @@ export default function DemoPage() {
         </p>
 
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-slate-950">
-          Explore DevWins without creating an account
+          Explore Dev<span className="text-amber-500">Wins</span> without creating an account
         </h1>
 
         <p className="mb-8 max-w-2xl text-slate-600">

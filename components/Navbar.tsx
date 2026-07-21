@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import LogoutButton from "@/components/LogoutButton";
+import DevWinsLogo from "@/components/DevWinsLogo";
 
 export default async function Navbar() {
   const session = await auth();
@@ -8,9 +9,7 @@ export default async function Navbar() {
   return (
     <header className="border-b border-slate-200 bg-white">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-bold text-slate-950">
-          DevWins
-        </Link>
+        <DevWinsLogo />
 
         <div className="flex items-center gap-5">
           <Link

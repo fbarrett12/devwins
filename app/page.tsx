@@ -12,7 +12,7 @@ export default function Home() {
       </h1>
 
       <p className="mb-10 max-w-2xl text-lg text-slate-600">
-        DevWins helps engineers capture achievements, metrics, STAR stories,
+        Dev<span className="text-amber-500">Wins</span> helps engineers capture achievements, metrics, STAR stories,
         technologies, and outcomes before they get forgotten.
       </p>
 

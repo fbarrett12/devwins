@@ -13,6 +13,10 @@ export default async function DemoWinsPage() {
     result: win.result,
   }));
 
+  const totalWins = searchableWins.length;
+
+  const totalCategories = new Set(searchableWins.map((win) => win.category)).size;
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
       <div className="mb-8 flex items-center justify-between">
@@ -27,7 +31,7 @@ export default async function DemoWinsPage() {
 
         <Link
           href="/signup"
-          className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800"
+          className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/20"
         >
           Create Your Own
         </Link>
@@ -35,7 +39,9 @@ export default async function DemoWinsPage() {
 
       <WinSearchList 
         wins={searchableWins} 
-        basePath="/demo/wins" 
+        basePath="/demo/wins"
+        totalWins={totalWins}
+        totalCategories={totalCategories} 
       />
     </main>
   );
