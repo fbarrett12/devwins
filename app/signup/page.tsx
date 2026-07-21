@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signupAction } from "@/app/actions/authActions";
+import { signIn } from "@/lib/auth";
 
 export default function SignupPage() {
   return (
