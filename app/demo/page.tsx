@@ -1,4 +1,4 @@
-import Link from "next/link";
+import ButtonLink from "@/components/ui/ButtonLink";
 
 export default function DemoPage() {
   return (
@@ -17,12 +17,13 @@ export default function DemoPage() {
           leadership, debugging, revenue, and architecture.
         </p>
 
-        <Link
+        <ButtonLink
           href="/demo/wins"
-          className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800"
+          variant="achievement"
+          size="lg"
         >
           View Demo Wins
-        </Link>
+        </ButtonLink>
       </section>
     </main>
   );

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import ButtonLink from "@/components/ui/ButtonLink";
 
 export default function Home() {
   return (
@@ -16,12 +16,13 @@ export default function Home() {
         technologies, and outcomes before they get forgotten.
       </p>
 
-      <Link
+      <ButtonLink
         href="/wins"
-        className="rounded-xl bg-slate-950 px-6 py-3 font-medium text-white hover:bg-slate-800"
+        variant="achievement"
+        size="lg"
       >
         View Your Wins
-      </Link>
+      </ButtonLink>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { winController } from "@/controllers/winController";
+import { getCategoryStyle } from "@/lib/categoryStyles";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -13,6 +14,8 @@ export default async function DemoWinDetailPage({ params }: PageProps) {
   if (!win) {
     notFound();
   }
+
+  const categoryStyle = getCategoryStyle(win.category);
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
@@ -29,7 +32,9 @@ export default async function DemoWinDetailPage({ params }: PageProps) {
             Demo Win
           </span>
 
-          <span className="mb-3 ml-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+          <span
+            className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${categoryStyle.badge}`}
+          >
             {win.category.replace("_", " ")}
           </span>
 
@@ -39,14 +44,16 @@ export default async function DemoWinDetailPage({ params }: PageProps) {
         </div>
 
         {win.impactMetric && (
-          <section className="mb-6 rounded-xl bg-slate-50 p-4">
-            <h2 className="mb-1 text-sm font-semibold text-slate-500">
-              Impact Metric
-            </h2>
-            <p className="text-xl font-semibold text-slate-950">
-              {win.impactMetric}
-            </p>
-          </section>
+          <div
+            className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold ${categoryStyle.impact}`}
+          >
+            <span
+              aria-hidden="true"
+              className={`h-2 w-2 rounded-full ${categoryStyle.dot}`}
+            />
+
+            <span>Impact: {win.impactMetric}</span>
+          </div>
         )}
 
         <div className="space-y-5">
