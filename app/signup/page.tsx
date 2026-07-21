@@ -63,6 +63,27 @@ export default function SignupPage() {
         </button>
       </form>
 
+      <div className="my-6 flex items-center gap-3">
+        <div className="h-px flex-1 bg-slate-200" />
+        <span className="text-xs font-medium uppercase text-slate-400">
+          or
+        </span>
+        <div className="h-px flex-1 bg-slate-200" />
+      </div>
+
+      <div className="space-y-3">
+        <form
+          action={async () => {
+            "use server";
+            await signIn("github", { redirectTo: "/wins" });
+            }}
+        >
+          <button className="w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            Continue with GitHub
+          </button>
+        </form>
+      </div>
+
       <p className="mt-6 text-center text-sm text-slate-500">
         Already have an account?{" "}
         <Link
